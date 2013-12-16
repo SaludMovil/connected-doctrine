@@ -19,7 +19,6 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Se
     }
 
     public function getServiceConfig() {
-        return array(
-        );
+        return include __DIR__ . '/../../../../config/connected-doctrine.local.php';
     }
 }
