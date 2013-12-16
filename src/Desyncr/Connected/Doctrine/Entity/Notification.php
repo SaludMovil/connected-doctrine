@@ -28,7 +28,7 @@ class Notification {
      *
      * @ORM\Column(name="created_date", type="time", nullable=true)
      */
-    protected $createdDate = 'now()';
+    protected $createdDate = null;
 
     /**
      * @var string

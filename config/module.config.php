@@ -1,8 +1,5 @@
 <?php
 return array(
-    'factories' => array(
-        'Desyncr\Connected\Doctrine\Service\DoctrineService'  => 'Desyncr\Connected\Doctrine\Factory\DoctrineServiceFactory'
-    ),
     'doctrine' => array(
         'driver' => array(
             'connected_doctrine_driver' => array(
