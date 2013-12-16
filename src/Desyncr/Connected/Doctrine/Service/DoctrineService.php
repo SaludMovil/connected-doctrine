@@ -7,7 +7,7 @@ class DoctrineService extends Connected\AbstractService {
 
         $notification = new \Desyncr\Connected\Doctrine\Entity\Notification();
         foreach ($this->frames as $frame) {
-            $notification->setBody($frame->get('body'));
+            $notification->setBody($frame->get('title'));
             $notification->setType($frame->get('info'));
         }
 
