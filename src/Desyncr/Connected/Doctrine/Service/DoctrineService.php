@@ -6,7 +6,10 @@ class DoctrineService extends Connected\AbstractService {
     public function dispatch() {
 
         $notification = new \Desyncr\Connected\Doctrine\Entity\Notification();
-        $notification->setBody('Service fucked up');
+        foreach ($this->frames as $frame) {
+            $notification->setBody(isset($frame['body']) ? $frame['body'] : '');
+            $notification->setType(isset($frame['type']) ? $frame['type'] : 'info' );
+        }
 
         $this->em->persist($notification);
         $this->em->flush();
