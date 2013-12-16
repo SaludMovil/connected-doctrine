@@ -12,9 +12,6 @@ class DoctrineServiceFactory extends Connected\AbstractServiceFactory implements
         parent::createService($serviceLocator);
 
         // get doctrine connection
-        $options = isset($this->config[$this->configuration_key]) ? $this->config[$this->configuration_key] : array();
-        $service->setOptions($options);
-        return $service;
 
     }
 }
