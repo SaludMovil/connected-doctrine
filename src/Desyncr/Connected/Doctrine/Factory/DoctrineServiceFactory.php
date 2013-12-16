@@ -10,6 +10,7 @@ class DoctrineServiceFactory extends Connected\AbstractServiceFactory implements
 
     public function createService(ServiceLocatorInterface $serviceLocator) {
         parent::createService($serviceLocator);
-        $this->em = $serviceLocator->get('Doctrine\ORM\EntityManager');
+        $em = $serviceLocator->get('Doctrine\ORM\EntityManager');
+        return new DoctrineService($em);
     }
 }
