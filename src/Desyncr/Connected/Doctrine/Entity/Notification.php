@@ -37,6 +37,28 @@ class Notification {
     protected $body = '';
 
     /**
+     * @var string
+     * @ORM\Column(name="type", type="string", length=256, nullable=false)
+     */
+    protected $type = 'info';
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * @param string $body
      */
     public function setBody($body)
