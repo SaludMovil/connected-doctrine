@@ -42,6 +42,10 @@ class Notification {
      */
     protected $type = 'info';
 
+    public function __construct() {
+        $this->createdDate = new \DateTime();
+    }
+
     /**
      * @param string $type
      */
