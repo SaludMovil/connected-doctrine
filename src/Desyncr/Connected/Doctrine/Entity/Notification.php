@@ -4,7 +4,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Notification
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Desyncr\Connected\Doctrine\Entity\Repository\NotificationRepository")
  * @ORM\Table(name="persistent_notification")
  */
 class Notification {
@@ -18,23 +18,15 @@ class Notification {
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="status", type="string", length=15, nullable=true)
+     * @ORM\Column(name="title", type="string", length=256, nullable=false)
      */
-    protected $status = 'unread';
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created_date", type="time", nullable=true)
-     */
-    protected $createdDate = null;
+    protected $title = '';
 
     /**
      * @var string
-     * @ORM\Column(name="body", type="string", length=256, nullable=false)
+     * @ORM\Column(name="text", type="string", length=2048, nullable=true)
      */
-    protected $body = '';
+    protected $text = '';
 
     /**
      * @var string
@@ -42,40 +34,26 @@ class Notification {
      */
     protected $type = 'info';
 
+    /**
+     * @var \Target
+     *
+     * @ORM\ManyToOne(targetEntity="Core\Model\Users")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     * })
+     * @ORM\Column(name="target", type="integer", nullable=false);
+     */
+    protected $target;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_date", type="time", nullable=true)
+     */
+    protected $createdDate = 'now()';
+
     public function __construct() {
         $this->createdDate = new \DateTime();
-    }
-
-    /**
-     * @param string $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param string $body
-     */
-    public function setBody($body)
-    {
-        $this->body = $body;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBody()
-    {
-        return $this->body;
     }
 
     /**
@@ -111,7 +89,7 @@ class Notification {
     }
 
     /**
-     * @param string $status
+     * @param \type $status
      */
     public function setStatus($status)
     {
@@ -119,11 +97,75 @@ class Notification {
     }
 
     /**
-     * @return string
+     * @return \type
      */
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * @param string $text
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param \status $target
+     */
+    public function setTarget($target)
+    {
+        $this->target = $target;
+    }
+
+    /**
+     * @return \target
+     */
+    public function getTarget()
+    {
+        return $this->target;
     }
 
 }
