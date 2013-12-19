@@ -67,7 +67,7 @@ class DoctrineService extends Connected\AbstractService {
     public function addTargets($n, $targets) {
         foreach ($targets as $target) {
             $target = $this->createEntity($this->getEntityTarget(), array(
-                'status' => 'unread',
+                'status' => 0,
                 'target' => $target
             ), false);
 

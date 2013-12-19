@@ -3,13 +3,14 @@ namespace Desyncr\Connected\Doctrine\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\Criteria;
+use \Desyncr\Connected\Doctrine\Entity\NotificationStatus;
 
 class NotificationStatusRepository extends EntityRepository
 {
     public function updateByIdAndUser($nid, $user, $status) {
 
         if (!$nstatus = $this->findByNotificationStatus($nid, $user)) {
-            $nstatus = new \Desyncr\Connected\Doctrine\Entity\NotificationStatus();
+            $nstatus = new NotificationStatus();
             $nstatus->setNotification($nid);
             $nstatus->setTarget($user->getId());
         }
