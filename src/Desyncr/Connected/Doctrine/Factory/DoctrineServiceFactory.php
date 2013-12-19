@@ -13,6 +13,9 @@ class DoctrineServiceFactory extends Connected\AbstractServiceFactory implements
         $service = new DoctrineService();
         $service->setOptions(array('em' => $serviceLocator->get('Doctrine\ORM\EntityManager')));
 
+        $service->setEntity($this->getConfig('entity'));
+        $service->setEntityTarget($this->getConfig('target'));
+
         return $service;
     }
 }

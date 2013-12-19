@@ -2,6 +2,8 @@
 return array(
     'connected' => array(
         'doctrine-adapter' => array(
+            'entity' => 'Core\Model\Notification',
+            'status' => 'Core\Model\NotificationStatus'
         )
     ),
     'factories' => array(
