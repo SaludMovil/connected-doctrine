@@ -11,7 +11,7 @@ class DoctrineService extends Connected\AbstractService {
         foreach ($this->frames as $frame) {
             $notification = $this->createEntity($this->getEntity(), $frame, false);
 
-            $targets = $frame->get('target');
+            $targets = $frame->get('targets');
             if (!is_array($targets)) {
                 $targets = array($targets);
             }
@@ -45,7 +45,8 @@ class DoctrineService extends Connected\AbstractService {
     }
 
     protected function initializeTargetEntity($target, $data) {
-        $target->setTarget($data['target']);
+        $target->setTargetId($data['target_id']);
+        $target->setTargetEntity($data['target_entity']);
         $target->setStatus($data['status']);
         return $target;
     }
@@ -65,10 +66,12 @@ class DoctrineService extends Connected\AbstractService {
     }
 
     public function addTargets($n, $targets) {
-        foreach ($targets as $target) {
+        foreach ($targets['id'] as $targets_id) {
             $target = $this->createEntity($this->getEntityTarget(), array(
                 'status' => 0,
-                'target' => $target
+                'target_entity' => $targets['entity'],
+                'target_id' => $targets_id
+
             ), false);
 
             $n->addTarget($target);
