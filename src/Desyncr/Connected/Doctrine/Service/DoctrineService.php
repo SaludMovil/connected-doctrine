@@ -1,9 +1,9 @@
 <?php
 namespace Desyncr\Connected\Doctrine\Service;
-use Desyncr\Connected\Service as Connected;
+use Desyncr\Connected\Service\AbstractSErvice;
 use Desyncr\Connected\Doctrine\Entity;
 
-class DoctrineService extends Connected\AbstractService {
+class DoctrineService extends AbstractService {
     protected $entityName       = '';
     protected $entityTargetName = '';
 
@@ -11,11 +11,12 @@ class DoctrineService extends Connected\AbstractService {
         foreach ($this->frames as $frame) {
             $notification = $this->createEntity($this->getEntity(), $frame, false);
 
-            $targets = $frame->get('targets');
+            $target = $frame->get('target');
+            $targets = $target['targets'];
             if (!is_array($targets)) {
                 $targets = array($targets);
             }
-            $this->addTargets($notification, $targets);
+            $this->addTargets($notification, $target['entity'], $targets);
 
             $this->em->persist($notification);
             $this->em->flush();
@@ -65,11 +66,11 @@ class DoctrineService extends Connected\AbstractService {
         return $n;
     }
 
-    public function addTargets($n, $targets) {
-        foreach ($targets['id'] as $targets_id) {
+    public function addTargets($n, $entity, $targets) {
+        foreach ($targets as $targets_id) {
             $target = $this->createEntity($this->getEntityTarget(), array(
                 'status' => 0,
-                'target_entity' => $targets['entity'],
+                'target_entity' => $entity,
                 'target_id' => $targets_id
 
             ), false);
