@@ -11,12 +11,10 @@ class DoctrineService extends AbstractService {
         foreach ($this->frames as $frame) {
             $notification = $this->createEntity($this->getEntity(), $frame, false);
 
+            // pre dispatch
             $target = $frame->get('target');
-            $targets = $target['targets'];
-            if (!is_array($targets)) {
-                $targets = array($targets);
-            }
-            $this->addTargets($notification, $target['entity'], $targets);
+            $targets = $this->getTargets($target);
+            $this->addTargets($notification, 'Core\Model\Users', $targets);
 
             $this->em->persist($notification);
             $this->em->flush();
@@ -94,5 +92,19 @@ class DoctrineService extends AbstractService {
 
     public function setEntityTarget($entityTargetName) {
         $this->entityTargetName = $entityTargetName;
+    }
+
+    private function getTargets($target) {
+        $target = new $target['class']($this->sm, $target['targets']);
+        $targets = $target->getTargets();
+        $arrTargets = array();
+        foreach ($targets as $target) {
+            $arrTargets[] = $target->getId();
+        }
+        return $arrTargets;
+    }
+
+    public function setServiceLocator($sm) {
+        $this->sm = $sm;
     }
 }
