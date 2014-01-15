@@ -12,8 +12,7 @@ class DoctrineService extends AbstractService {
             $notification = $this->createEntity($this->getEntity(), $frame, false);
 
             // pre dispatch
-            $target = $frame->get('target');
-            $targets = $this->getTargets($target);
+            $targets = $this->getTargets($frame);
             $this->addTargets($notification, 'Core\Model\Users', $targets);
 
             $this->em->persist($notification);
@@ -67,11 +66,11 @@ class DoctrineService extends AbstractService {
     public function addTargets($n, $entity, $targets) {
         foreach ($targets as $targets_id) {
             $target = $this->createEntity($this->getEntityTarget(), array(
-                'status' => 0,
-                'target_entity' => $entity,
-                'target_id' => $targets_id
+                    'status' => 0,
+                    'target_entity' => $entity,
+                    'target_id' => $targets_id
 
-            ), false);
+                ), false);
 
             $n->addTarget($target);
         }
@@ -94,14 +93,28 @@ class DoctrineService extends AbstractService {
         $this->entityTargetName = $entityTargetName;
     }
 
-    private function getTargets($target) {
-        $target = new $target['class']($this->sm, $target['targets']);
-        $targets = $target->getTargets();
+    private function getTargets($frame) {
+        $sender     = $this->getSender($frame);
+        $targets    = $this->instantiateTarget($frame);
         $arrTargets = array();
         foreach ($targets as $target) {
+            if ($sender == $target->getId()) {
+                continue;
+            };
             $arrTargets[] = $target->getId();
         }
         return $arrTargets;
+    }
+
+    private function instantiateTarget($frame) {
+        $targetClass = $frame->get('target');
+        $target = new $targetClass['class']($this->sm, $targetClass['targets']);
+        return $target->getTargets();
+    }
+
+    private function getSender($frame) {
+        $sender = $frame->get('sender');
+        return $sender;
     }
 
     public function setServiceLocator($sm) {
