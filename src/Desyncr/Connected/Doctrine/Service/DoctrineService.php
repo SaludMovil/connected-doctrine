@@ -13,10 +13,10 @@ class DoctrineService extends AbstractService {
 
             // pre dispatch
             $targets = $this->getTargets($frame);
-            $this->addTargets($notification, 'Core\Model\Users', $targets);
+            $target = $frame->get('target');
+            $this->addTargets($notification, $target['entity'], $targets);
 
             $this->em->persist($notification);
-            $this->em->flush();
         }
     }
 
