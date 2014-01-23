@@ -60,6 +60,10 @@ class DoctrineService extends AbstractService {
             $n->setType($type);
         }
 
+        if ($origin = $frame->get('origin')) {
+            $n->setOrigin($origin);
+        }
+
         return $n;
     }
 
