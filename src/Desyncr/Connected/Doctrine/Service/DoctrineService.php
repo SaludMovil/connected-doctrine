@@ -17,6 +17,7 @@ class DoctrineService extends AbstractService {
             $this->addTargets($notification, $target['entity'], $targets);
 
             $this->em->persist($notification);
+            $this->em->flush();
         }
     }
 
