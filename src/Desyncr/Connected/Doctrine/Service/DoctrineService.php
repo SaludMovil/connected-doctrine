@@ -53,8 +53,13 @@ class DoctrineService extends AbstractService {
     protected function initializeEntity($n, $frame) {
         $n->setTitle($frame->get('title'));
 
+        // TODO move this out of DoctrineService
         if ($text = $frame->get('text')) {
             $n->setText($text);
+        }
+
+        if ($mode = $frame->get('mode')) {
+            $n->setMode($mode);
         }
 
         if ($type = $frame->get('type')) {
