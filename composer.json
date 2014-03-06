@@ -1,6 +1,6 @@
 {
     "name": "desyncr/connected-doctrine",
-    "version":"0.0.8",
+    "version":"0.1.0",
     "description":"connected doctrine adapter",
     "repositories": [
         {
@@ -10,7 +10,8 @@
     ],
     "require" : {
         "php" : ">=5.3.0",
-        "desyncr/connected" : "0.2.*"
+        "desyncr/connected" : "0.3.*",
+        "zendframework/zendframework": "2.*"
     },
     "autoload": {
         "psr-0" : {
