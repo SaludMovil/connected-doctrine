@@ -54,6 +54,7 @@ class DoctrineService extends AbstractService
             $this->em->persist($notification);
             $this->em->flush();
         }
+        $this->frames = array();
     }
 
     /**
