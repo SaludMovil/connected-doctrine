@@ -14,7 +14,7 @@
 namespace Desyncr\Connected\Doctrine\Service;
 
 use Desyncr\Connected\Doctrine\Entity;
-use Desyncr\Connected\Service\AbstractSErvice;
+use Desyncr\Connected\Service\AbstractService;
 
 /**
  * Class DoctrineService
@@ -28,13 +28,24 @@ use Desyncr\Connected\Service\AbstractSErvice;
 class DoctrineService extends AbstractService
 {
     /**
+     * @var
+     */
+    protected $sm;
+
+    /**
      * @var string
      */
     protected $entityName = '';
+
     /**
      * @var string
      */
     protected $entityTargetName = '';
+
+    /**
+     * @var
+     */
+    protected $em;
 
     /**
      * dispatch
@@ -48,11 +59,12 @@ class DoctrineService extends AbstractService
 
             // pre dispatch
             $targets = $this->getTargets($frame);
-            $target  = $frame->get('target');
-            $this->addTargets($notification, $target['entity'], $targets);
+            $target  = $frame->getTarget();
+            $this->addTargets($notification, $target->getEntity(), $target->getClass(), $targets);
 
-            $this->em->persist($notification);
-            $this->em->flush();
+            $this->getEntityManager()->persist($notification);
+            $this->getEntityManager()->flush();
+            $this->getEntityManager()->clear();
         }
         $this->frames = array();
     }
@@ -94,8 +106,8 @@ class DoctrineService extends AbstractService
         }
 
         if ($persist) {
-            $this->em->persist($entity);
-            $this->em->flush();
+            $this->getEntityManager()->persist($entity);
+            $this->getEntityManager()->flush();
         }
 
         return $entity;
@@ -113,6 +125,7 @@ class DoctrineService extends AbstractService
     {
         $target->setTargetId($data['target_id']);
         $target->setTargetEntity($data['target_entity']);
+        $target->setClass($data['class']);
         $target->setStatus($data['status']);
 
         return $target;
@@ -128,22 +141,26 @@ class DoctrineService extends AbstractService
      */
     protected function initializeEntity($n, $frame)
     {
-        $n->setTitle($frame->get('title'));
+        $n->setTitle($frame->getTitle());
 
-        if ($text = $frame->get('text')) {
+        if ($text = $frame->getText()) {
             $n->setText($text);
         }
 
-        if ($mode = $frame->get('mode')) {
+        if ($mode = $frame->getMode()) {
             $n->setMode($mode);
         }
 
-        if ($type = $frame->get('type')) {
+        if ($type = $frame->getType()) {
             $n->setType($type);
         }
 
-        if ($origin = $frame->get('origin')) {
+        if ($origin = $frame->getOrigin()) {
             $n->setOrigin($origin);
+        }
+
+        if ($scheduled = $frame->getScheduled()) {
+            $n->setScheduled($scheduled);
         }
 
         return $n;
@@ -190,7 +207,7 @@ class DoctrineService extends AbstractService
      */
     private function getSender($frame)
     {
-        return $frame->get('sender');
+        return $frame->getSender();
     }
 
     /**
@@ -202,10 +219,9 @@ class DoctrineService extends AbstractService
      */
     private function instantiateTarget($frame)
     {
-        $targetClass = $frame->get('target');
-        $target      = new $targetClass['class']($targetClass['targets'], $this->getServiceLocator());
-
-        return $target->getTargets();
+        $targetClass = $frame->getTarget();
+        $targetClass->setServiceManager($this->getServiceLocator());
+        return $targetClass->getTargets();
     }
 
     /**
@@ -217,15 +233,16 @@ class DoctrineService extends AbstractService
      *
      * @return mixed
      */
-    public function addTargets($n, $entity, $targets)
+    public function addTargets($n, $entity, $class, $targets)
     {
         foreach ($targets as $targets_id) {
             $target = $this->createEntity(
                 $this->getEntityTarget(),
                 array(
-                   'status'        => 0,
-                   'target_entity' => $entity,
-                   'target_id'     => $targets_id
+                    'status'        => 0,
+                    'target_entity' => $entity,
+                    'class'         => $class,
+                    'target_id'     => $targets_id
                 ),
                 false
             );
@@ -290,5 +307,28 @@ class DoctrineService extends AbstractService
     public function setEntityTarget($entityTargetName)
     {
         $this->entityTargetName = $entityTargetName;
+    }
+
+    /**
+     * getEntityManager
+     *
+     * @return Object
+     */
+    protected function getEntityManager()
+    {
+        return $this->em ?:
+            $this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+    }
+
+    /**
+     * setEntityManager
+     *
+     * @param Object $em Entity manager
+     *
+     * @return Object
+     */
+    protected function setEntityManager($em)
+    {
+        $this->em = $em;
     }
 }
