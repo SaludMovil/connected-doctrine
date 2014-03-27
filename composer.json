@@ -1,6 +1,6 @@
 {
     "name": "desyncr/connected-doctrine",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "connected doctrine adapter",
     "repositories": [
         {
