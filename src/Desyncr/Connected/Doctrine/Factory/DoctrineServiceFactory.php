@@ -31,26 +31,18 @@ class DoctrineServiceFactory extends AbstractServiceFactory implements
     FactoryInterface
 {
     /**
-     * @var string
-     */
-    protected $configuration_key = 'doctrine-adapter';
-
-    /**
      * createService
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ServiceLocatorInterface $serviceLocator Service Manager
      *
      * @return mixed
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        parent::createService($serviceLocator);
-
         $service = new DoctrineService();
-        $service->setOptions(array('em' => $serviceLocator->get('Doctrine\ORM\EntityManager')));
-
-        $service->setEntity($this->getConfig('entity'));
-        $service->setEntityTarget($this->getConfig('target'));
+        $service->setEntityManager(
+            $serviceLocator->get('Doctrine\ORM\EntityManager')
+        );
         $service->setServiceLocator($serviceLocator);
 
         return $service;

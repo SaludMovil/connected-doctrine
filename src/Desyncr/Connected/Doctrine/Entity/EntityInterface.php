@@ -18,31 +18,21 @@ namespace Desyncr\Connected\Doctrine\Entity;
  *
  * @package Desyncr\Connected\Doctrine\Entity
  */
-interface EntityInterface {
+interface EntityInterface
+{
     /**
-     * setType
+     * setId
      *
-     * @param $type
+     * @param Int $id Entity id
      *
      * @return mixed
      */
-    public function setType($type);
+    public function setId($id);
 
     /**
-     * addTarget
+     * getId
      *
-     * @param $target
-     *
-     * @return mixed
+     * @return int
      */
-    public function addTarget($target);
-
-    /**
-     * setText
-     *
-     * @param $text
-     *
-     * @return mixed
-     */
-    public function setText($text);
+    public function getId();
 } 
