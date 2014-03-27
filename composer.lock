@@ -7,16 +7,16 @@
     "packages": [
         {
             "name": "desyncr/connected",
-            "version": "0.4.0",
+            "version": "0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/desyncr/connected.git",
-                "reference": "a9ef3fa6877bbeeef2c3ab54f1e90a29c731b94f"
+                "reference": "de61174881bee461b9f1266ff7fed9196a8223ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/desyncr/connected/zipball/a9ef3fa6877bbeeef2c3ab54f1e90a29c731b94f",
-                "reference": "a9ef3fa6877bbeeef2c3ab54f1e90a29c731b94f",
+                "url": "https://api.github.com/repos/desyncr/connected/zipball/de61174881bee461b9f1266ff7fed9196a8223ba",
+                "reference": "de61174881bee461b9f1266ff7fed9196a8223ba",
                 "shasum": ""
             },
             "require": {
@@ -56,10 +56,10 @@
                 "zf2"
             ],
             "support": {
-                "source": "https://github.com/desyncr/connected/tree/v0.4.0",
+                "source": "https://github.com/desyncr/connected/tree/master",
                 "issues": "https://github.com/desyncr/connected/issues"
             },
-            "time": "2014-03-22 01:56:03"
+            "time": "2014-03-27 14:30:48"
         },
         {
             "name": "doctrine/annotations",

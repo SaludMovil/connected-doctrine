@@ -5,7 +5,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "http://github.com/desyncr/connected-doctrine.git"
+            "url": "http://github.com/desyncr/connected.git"
         }
     ],
     "require": {

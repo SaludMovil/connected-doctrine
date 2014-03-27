@@ -42,7 +42,6 @@ class DoctrineServiceTest extends DoctrineServiceTestBase
             $entity
         );
 
-        $this->assertEquals('test.notification', $entity->getId());
         $service->clear();
     }
 
